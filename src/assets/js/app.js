@@ -31,8 +31,9 @@ var getEventPhotosHandler = function(photos){
     );   
 };
 
+var host = location.origin.replace(/^http/, 'ws')
 
-var socket = io.connect('https://localhost', {secure: true});
+var socket = io.connect(host);
     
 socket.on('data', function (data) {
     

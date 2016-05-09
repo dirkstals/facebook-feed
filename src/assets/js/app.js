@@ -32,17 +32,17 @@ var getEventPhotosHandler = function(photos){
 };
 
 var getEventFeedHandler = function(feed){
-    console.log(feed);
+    
      ReactDOM.render(
         React.createElement(
             'ul', 
             null,
-            Object.keys(feed).map(function (key) {
+            Object.keys(data.feed).map(function (key) {
                 
                 return React.createElement(
                     'li',
                     {'key': key},
-                    React.createElement('p', feed[key].message)
+                    React.createElement('p', data.feed[key].message)
                 );
             })
         ),

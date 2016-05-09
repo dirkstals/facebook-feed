@@ -3,6 +3,9 @@ logs
 *.log
 npm-debug.log*
 
+# Temporary files
+.tmp
+
 # Runtime data
 pids
 *.pid

@@ -7,7 +7,6 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 
-var config = require(process.cwd() + '/package.json');
 var facebookService = require('./src/assets/js/facebookService');
 
 var port = 3030;
@@ -20,14 +19,14 @@ router.get('/', function(req, res){
 
 router.get('/users', function(req, res){
 
-    facebookService.getEventUsers(config.eventID, function(data){
+    facebookService.getEventUsers(process.env.EVENTID, function(data){
         res.json(data);    
     });
 });
 
 router.get('/photos', function(req, res){
 
-    facebookService.getEventPhotos(config.eventID, function(data){
+    facebookService.getEventPhotos(process.env.EVENTID, function(data){
         res.json(data);    
     });
 });

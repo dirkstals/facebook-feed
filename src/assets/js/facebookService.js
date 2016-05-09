@@ -1,5 +1,4 @@
 var https = require('https');
-var config = require(process.cwd() + '/package.json');
 
 var facebookService = (function(){
 
@@ -14,7 +13,7 @@ var facebookService = (function(){
     var _get = function(path, callback, parameters){
 
         parameters = parameters || [];
-        parameters.push({'access_token': config.userToken});
+        parameters.push({'access_token': process.env.USERTOKEN});
 
         var serializedParameters = parameters.map(function(item){
 

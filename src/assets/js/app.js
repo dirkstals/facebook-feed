@@ -32,7 +32,7 @@ var getEventPhotosHandler = function(photos){
 };
 
 
-var socket = io.connect('http://localhost');
+var socket = io.connect('https://localhost', {secure: true});
     
 socket.on('data', function (data) {
     

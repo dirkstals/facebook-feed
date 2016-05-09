@@ -29,15 +29,6 @@ router.get('/photos', function(req, res){
     });
 });
 
-router.get('/feed', function(req,res){
-    
-    if (req.query['hub.verify_token'] === 'you_got_some_new_posts') {
-        res.send(req.query['hub.challenge']);
-        console.log("facebook webhook called me");
-        res.sendStatus(200)
-    }    
-});
-
 app.use('/api', router);
 
 
@@ -49,6 +40,15 @@ app.get('/', function(req, res){
 
     res.sendFile(__dirname + distFolder + '/index.html');
 });
+
+app.get('/webhook', function (req, res) {
+    if (req.query['hub.verify_token'] === 'you_got_some_new_posts') {
+        res.send(req.query['hub.challenge']);
+    } else {
+        res.send('Invalid verify token');
+    }
+});
+
 
 var server = app.listen(port, function(){
     

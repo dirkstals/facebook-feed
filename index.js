@@ -33,6 +33,13 @@ router.get('/photos', function(req, res){
     });
 });
 
+router.get('/feed', function(req, res){
+
+    facebookService.getEventFeed(process.env.EVENTID, function(data){
+        res.json(data);    
+    });
+});
+
 app.use('/api', router);
 
 

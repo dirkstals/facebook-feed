@@ -31,6 +31,25 @@ var getEventPhotosHandler = function(photos){
     );   
 };
 
+var getEventFeedHandler = function(feed){
+
+     ReactDOM.render(
+        React.createElement(
+            'ul', 
+            null,
+            Object.keys(feed).map(function (key) {
+                
+                return React.createElement(
+                    'li',
+                    {'key': key},
+                    React.createElement('p', feed[key].message)
+                );
+            })
+        ),
+        document.getElementById('view')
+    );       
+};
+
 var host = location.origin.replace(/^http/, 'ws')
 
 var socket = io.connect(host);
@@ -40,7 +59,13 @@ socket.on('data', function (data) {
     console.log(data);
 });
 
+fetch('/api/feed').then(function(response) {
+    return response.json().then(function(feed) {
+        getEventFeedHandler(feed);
+    });
+});
 
+/*
 fetch('/api/users').then(function (response) {
     return response.json().then(function(users) {
         getEventUsersHandler(users);
@@ -52,3 +77,4 @@ fetch('/api/users').then(function (response) {
         });     
     });
 });
+*/

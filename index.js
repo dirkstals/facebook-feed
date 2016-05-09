@@ -1,7 +1,5 @@
 
-var debug = process.argv[process.argv.length - 1] == 'debug';
-
-var distFolder = debug ? '/src' : '/dist';
+var distFolder = '/dist';
 
 var express = require('express');
 var app = express();

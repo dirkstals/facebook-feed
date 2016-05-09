@@ -32,7 +32,7 @@ var getEventPhotosHandler = function(photos){
 };
 
 var getEventFeedHandler = function(feed){
-
+    console.log(feed);
      ReactDOM.render(
         React.createElement(
             'ul', 
@@ -60,9 +60,7 @@ socket.on('data', function (data) {
 });
 
 fetch('/api/feed').then(function(response) {
-    return response.json().then(function(feed) {
-        getEventFeedHandler(feed);
-    });
+    return response.json().then(getEventFeedHandler);
 });
 
 /*

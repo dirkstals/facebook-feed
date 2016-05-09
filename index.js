@@ -7,7 +7,7 @@ var router = express.Router();
 
 var facebookService = require('./src/assets/js/facebookService');
 
-var port = 3030;
+var port = process.env.PORT || 3030;
 
 // API
 router.get('/', function(req, res){

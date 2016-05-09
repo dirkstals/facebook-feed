@@ -29,6 +29,13 @@ router.get('/photos', function(req, res){
     });
 });
 
+router.get('/feed', function(req,res){
+    
+    console.log(req.body);
+
+    res.sendStatus(200);
+});
+
 app.use('/api', router);
 
 

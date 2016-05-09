@@ -2,12 +2,16 @@
 var distFolder = '/dist';
 
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
 var router = express.Router();
 
 var facebookService = require('./src/assets/js/facebookService');
 
 var port = process.env.PORT || 3030;
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 // API
 router.get('/', function(req, res){
@@ -47,6 +51,12 @@ app.get('/webhook', function (req, res) {
     } else {
         res.send('Invalid verify token');
     }
+});
+
+app.post('/webhook', function (req, res) {
+    console.log(req.body);
+
+    res.sendStatus(200);
 });
 
 

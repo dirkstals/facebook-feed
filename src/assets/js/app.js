@@ -37,12 +37,12 @@ var getEventFeedHandler = function(feed){
         React.createElement(
             'ul', 
             null,
-            Object.keys(data.feed).map(function (key) {
+            Object.keys(feed.data).map(function (key) {
                 
                 return React.createElement(
                     'li',
                     {'key': key},
-                    React.createElement('p', data.feed[key].message)
+                    React.createElement('p', feed.data[key].message)
                 );
             })
         ),

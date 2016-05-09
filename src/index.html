@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+        <title>Facebook feed</title>
+
+        <!-- build:css assets/style.css -->
+        <link rel="stylesheet" href="assets/css/style.css">
+        <!-- endbuild -->
+
+    </head>
+    
+    <body>
+
+        <div id="view"></div>
+
+        <script src="/socket.io/socket.io.js"></script>
+
+        <!-- build:js assets/script.js -->
+
+            <!-- node modules -->
+            <script src="../node_modules/react/dist/react.min.js"></script>
+            <script src="../node_modules/react-dom/dist/react-dom.min.js"></script>
+
+            <!-- main script -->
+            <script src="assets/js/user.js"></script>
+            <script src="assets/js/photo.js"></script>
+            <script src="assets/js/app.js"></script>
+
+        <!-- endbuild -->
+
+    </body>
+
+</html>

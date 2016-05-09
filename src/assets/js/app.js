@@ -32,6 +32,8 @@ var getEventPhotosHandler = function(photos){
 };
 
 var getEventFeedHandler = function(feed){
+
+    console.log(feed.data);
     
      ReactDOM.render(
         React.createElement(
@@ -42,7 +44,7 @@ var getEventFeedHandler = function(feed){
                 return React.createElement(
                     'li',
                     {'key': key},
-                    React.createElement('p', feed.data[key].message)
+                    React.createElement('p', null, feed.data[key].message)
                 );
             })
         ),

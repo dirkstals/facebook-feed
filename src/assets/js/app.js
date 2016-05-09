@@ -40,7 +40,7 @@ socket.on('data', function (data) {
     console.log(data);
 });
 
-/*
+
 fetch('/api/users').then(function (response) {
     return response.json().then(function(users) {
         getEventUsersHandler(users);
@@ -52,4 +52,3 @@ fetch('/api/users').then(function (response) {
         });     
     });
 });
-*/

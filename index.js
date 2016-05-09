@@ -31,9 +31,11 @@ router.get('/photos', function(req, res){
 
 router.get('/feed', function(req,res){
     
-    console.log(req.body);
-
-    res.sendStatus(200);
+    if (req.query['hub.verify_token'] === 'you_got_some_new_posts') {
+        res.send(req.query['hub.challenge']);
+        console.log("facebook webhook called me");
+        res.sendStatus(200)
+    }    
 });
 
 app.use('/api', router);

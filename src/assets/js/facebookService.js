@@ -65,8 +65,8 @@ var facebookService = (function(){
 
         _get('/' + eventId, function(data){
 
-            var attendingUserIds = data.attending ? data.attending.data.map(function(item){return item.id;}) : null;
-            var noreplyUserIds = data.noreply ? data.noreply.data.map(function(item){return item.id;}) : null;
+            var attendingUserIds = data.attending ? data.attending.data.map(function(item){return item.id;}) : [];
+            var noreplyUserIds = data.noreply ? data.noreply.data.map(function(item){return item.id;}) : [];
             var userIds = attendingUserIds.join(',') + ',' + noreplyUserIds.join(',');
 
             _get('/', callback, [{'ids': userIds}, {'fields': 'picture,name'}, {'type': 'large'}]);

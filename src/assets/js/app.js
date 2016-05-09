@@ -2,7 +2,7 @@
 var storedUsers = {};
 
 var getEventUsersHandler = function(users){
-
+console.log(users);
     Object.keys(users).map(function(key){
         storedUsers[key] = {
             name: users[key].name,

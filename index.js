@@ -61,7 +61,8 @@ app.get('/webhook', function (req, res) {
 });
 
 app.post('/webhook', function (req, res) {
-    console.log(req.body);
+    
+    io.emit('data', req.body);
 
     res.sendStatus(200);
 });
@@ -79,8 +80,4 @@ var io = require('socket.io')(server);
 io.on('connection', function (socket) {
     
     console.log('New client connected!');
-
-    socket.emit('data', {
-        data: "This is my data"
-    });
 });

@@ -107,7 +107,8 @@ var facebookService = (function(){
     return {
         getEventPhotos: getEventPhotos,
         getEventUsers: getEventUsers,
-        getEventFeed: getEventFeed
+        getEventFeed: getEventFeed,
+        getEventFeedSince: getEventFeedSince
     }
 
 })();

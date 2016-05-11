@@ -1,5 +1,6 @@
 
 var storedUsers = {};
+var host = location.origin.replace(/^http/, 'ws');
 
 var getEventUsersHandler = function(users){
 console.log(users);
@@ -33,36 +34,17 @@ var getEventPhotosHandler = function(photos){
 
 var getEventFeedHandler = function(feed){
 
-    console.log(feed.data);
-    
-     ReactDOM.render(
-        React.createElement(
-            'ul', 
-            null,
-            Object.keys(feed.data).map(function (key) {
-                
-                return React.createElement(
-                    'li',
-                    {'key': key},
-                    React.createElement('p', null, feed.data[key].message)
-                );
-            })
-        ),
+    ReactDOM.render(
+        React.createElement(Feed, {'feed': 'feed'}),
         document.getElementById('view')
     );       
 };
-
-var host = location.origin.replace(/^http/, 'ws')
 
 var socket = io.connect(host);
     
 socket.on('data', function (data) {
     
-    console.log(data);
-});
-
-fetch('/api/feed').then(function(response) {
-    return response.json().then(getEventFeedHandler);
+    Feed.handleNewPosts(data);
 });
 
 /*

@@ -5,7 +5,8 @@ var facebookService = (function(){
     var _options = {
             host: 'graph.facebook.com'
         },
-        lastTimeChecked;
+        lastTimeChecked,
+        storedPosts = [];
 
 
     /**
@@ -80,12 +81,12 @@ var facebookService = (function(){
 
 
     /**
-     * @function getEventFeed
+     * @function getFeed
      * @public
      */
-    var getEventFeed = function(eventID, callback, since){
+    var getFeed = function(eventID, callback, since){
 
-        var params = [{'fields': 'id,message,likes,type,object_id,from,updated_time'}];
+        var params = [{'fields': 'id,message,likes.summary(1),type,object_id,from,updated_time'}];
 
         if(since){
 
@@ -108,12 +109,53 @@ var facebookService = (function(){
 
 
     /**
+     * @function getEventFeed
+     * @public
+     */
+    var getEventFeed = function(eventID, callback, since){
+
+        getFeed(eventID, function(data){
+
+            storedPosts = [];
+
+            if(data && data.data){
+               
+                data.data.map(function(element){
+
+                    storedPosts.push(element.id); 
+                });
+            }
+
+            callback(data);
+
+        }, lastTimeChecked);
+    };
+
+
+    /**
      * @function getEventFeedSince
      * @public
      */
     var getEventFeedSince = function(eventID, callback){
 
-        getEventFeed(eventID, callback, lastTimeChecked);
+        getFeed(eventID, function(data){
+
+            if(data && data.data){
+                   
+                data.data.filter(function(element){
+                    
+                    return storedPosts.indexOf(element.id) === -1;
+                });
+
+                data.data.map(function(element){
+
+                    storedPosts.push(element.id); 
+                });
+            }
+
+            callback(data);
+
+        }, lastTimeChecked);
     };
     
 

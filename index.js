@@ -53,9 +53,12 @@ app.get('/', function(req, res){
 });
 
 app.get('/webhook', function (req, res) {
+
     if (req.query['hub.verify_token'] === 'you_got_some_new_posts') {
+
         res.send(req.query['hub.challenge']);
     } else {
+        
         res.send('Invalid verify token');
     }
 });
@@ -63,7 +66,14 @@ app.get('/webhook', function (req, res) {
 app.post('/webhook', function (req, res) {
     
     facebookService.getEventFeedSince(process.env.EVENTID, function(data){
-        io.emit('data', data);
+
+        if(data && data.data && data.data.length > 0){
+
+            io.emit('data', data);
+        }else{
+
+            console.log('nothing\'s changed.');
+        }
     });
 
     res.sendStatus(200);

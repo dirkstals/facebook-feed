@@ -89,7 +89,7 @@ var facebookService = (function(){
 
         if(since){
 
-            params.push({'since', since});
+            params.push({'since': since});
         }
         
         _get('/' + eventID + '/feed', function(data){

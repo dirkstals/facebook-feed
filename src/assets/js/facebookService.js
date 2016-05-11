@@ -24,6 +24,8 @@ var facebookService = (function(){
 
         _options.path = path + '?' + serializedParameters;
 
+        console.log("PATH: " + _options.path);
+
         https.get(_options, function(res){
             var data = '';
 
@@ -97,6 +99,8 @@ var facebookService = (function(){
             if(data && data.length > 0 && data[0] && data[0].updated_time){
 
                 lastTimeChecked = data[0].updated_time;
+
+                console.log("LAST TIME CHECKED: " + lastTimeChecked);
             }
 
             callback(data);

@@ -39,8 +39,6 @@ var facebookService = (function(){
                 if(res.headers['content-type'].indexOf('javascript') !== -1){
                     data = JSON.parse(data);
                 }
-                
-                lastTimeChecked = new Date().getTime();
 
                 callback(data);
             });
@@ -98,7 +96,7 @@ var facebookService = (function(){
 
             if(data.data && data.data.length > 0 && data.data[0] && data.data[0].updated_time){
 
-                lastTimeChecked = Date.parse(data.data[0].updated_time) / 1000;
+                lastTimeChecked = Math.floor(Date.parse(data.data[0].updated_time) / 1000);
 
                 console.log("LAST TIME CHECKED: " + lastTimeChecked);
             }

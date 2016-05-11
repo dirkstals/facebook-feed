@@ -96,9 +96,9 @@ var facebookService = (function(){
         
         _get('/' + eventID + '/feed', function(data){
 
-            if(data && data.length > 0 && data[0] && data[0].updated_time){
+            if(data.data && data.data.length > 0 && data.data[0] && data.data[0].updated_time){
 
-                lastTimeChecked = data[0].updated_time;
+                lastTimeChecked = Date.parse(data.data[0].updated_time) / 1000;
 
                 console.log("LAST TIME CHECKED: " + lastTimeChecked);
             }

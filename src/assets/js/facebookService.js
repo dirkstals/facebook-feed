@@ -83,9 +83,25 @@ var facebookService = (function(){
      * @function getEventFeed
      * @public
      */
-    var getEventFeed = function(eventID, callback){
+    var getEventFeed = function(eventID, callback, since){
+
+        var params = [{'fields': 'id,message,likes,type,object_id,from,updated_time'}];
+
+        if(since){
+
+            params.push({'since', since});
+        }
         
-        _get('/' + eventID + '/feed', callback, [{'fields': 'id,message,likes,type,object_id,from'}]);
+        _get('/' + eventID + '/feed', function(data){
+
+            if(data && data.length > 0 && data[0] && data[0].updated_time){
+
+                lastTimeChecked = data[0].updated_time;
+            }
+
+            callback(data);
+
+        }, params);
     };
 
 
@@ -95,13 +111,8 @@ var facebookService = (function(){
      */
     var getEventFeedSince = function(eventID, callback){
 
-        _get('/' + eventID + '/feed', callback, [{'fields': 'id,message,likes,type,object_id,from', 'since': lastTimeChecked}]);
-
-        lastTimeChecked = new Date().getTime();
+        getEventFeed(eventID, callback, lastTimeChecked);
     };
-
-
-
     
 
     return {

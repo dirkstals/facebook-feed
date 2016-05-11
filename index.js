@@ -62,7 +62,9 @@ app.get('/webhook', function (req, res) {
 
 app.post('/webhook', function (req, res) {
     
-    io.emit('data', req.body);
+    facebookService.getEventFeedSince(process.env.EVENTID, function(data){
+        io.emit('data', data);
+    });
 
     res.sendStatus(200);
 });

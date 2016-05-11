@@ -3,8 +3,10 @@ var https = require('https');
 var facebookService = (function(){
 
     var _options = {
-        host: 'graph.facebook.com'
-    };
+            host: 'graph.facebook.com'
+        },
+        lastTimeChecked;
+
 
     /**
      * @function _get
@@ -35,6 +37,8 @@ var facebookService = (function(){
                 if(res.headers['content-type'].indexOf('javascript') !== -1){
                     data = JSON.parse(data);
                 }
+                
+                lastTimeChecked = new Date().getTime();
 
                 callback(data);
             });
@@ -80,9 +84,25 @@ var facebookService = (function(){
      * @public
      */
     var getEventFeed = function(eventID, callback){
-
+        
         _get('/' + eventID + '/feed', callback, [{'fields': 'id,message,likes,type,object_id,from'}]);
     };
+
+
+    /**
+     * @function getEventFeedSince
+     * @public
+     */
+    var getEventFeedSince = function(eventID, callback){
+
+        _get('/' + eventID + '/feed', callback, [{'fields': 'id,message,likes,type,object_id,from', 'since': lastTimeChecked}]);
+
+        lastTimeChecked = new Date().getTime();
+    };
+
+
+
+    
 
     return {
         getEventPhotos: getEventPhotos,

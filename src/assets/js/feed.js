@@ -11,7 +11,7 @@ var Feed = React.createClass({
                 
                 this.setState({feed: data.data});
             }.bind(this));
-        });
+        }.bind(this));
     },
     handleNewPosts: function(posts) {
         

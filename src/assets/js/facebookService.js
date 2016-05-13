@@ -25,8 +25,6 @@ var facebookService = (function(){
 
         _options.path = path + '?' + serializedParameters;
 
-        console.log("PATH: " + _options.path);
-
         https.get(_options, function(res){
             var data = '';
 
@@ -98,8 +96,6 @@ var facebookService = (function(){
             if(data.data && data.data.length > 0 && data.data[0] && data.data[0].updated_time){
 
                 lastTimeChecked = Math.floor(Date.parse(data.data[0].updated_time) / 1000);
-
-                console.log("LAST TIME CHECKED: " + lastTimeChecked);
             }
 
             callback(data);
@@ -112,7 +108,7 @@ var facebookService = (function(){
      * @function getEventFeed
      * @public
      */
-    var getEventFeed = function(eventID, callback, since){
+    var getEventFeed = function(eventID, callback){
 
         getFeed(eventID, function(data){
 
@@ -128,7 +124,7 @@ var facebookService = (function(){
 
             callback(data);
 
-        }, lastTimeChecked);
+        });
     };
 
 

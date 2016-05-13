@@ -64,7 +64,7 @@ app.get('/webhook', function (req, res) {
 });
 
 app.post('/webhook', function (req, res) {
-    
+    console.log("FACEBOOK WEBHOOK");
     facebookService.getEventFeedSince(process.env.EVENTID, function(data){
 
         if(data && data.data && data.data.length > 0){

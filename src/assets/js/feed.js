@@ -12,8 +12,13 @@ var Feed = React.createClass({
         }.bind(this));
     },
     handleNewPosts: function(posts) {
+
+        console.log(this.state.feed);
+        console.log(posts.data);
         
         Array.prototype.push.apply(this.state.feed, posts.data);
+
+        console.log(this.state.feed);
 
         this.setState({feed: this.state.feed});
     },

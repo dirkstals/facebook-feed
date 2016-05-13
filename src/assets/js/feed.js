@@ -13,7 +13,11 @@ var Feed = React.createClass({
     },
     handleNewPosts: function(posts) {
         
-        this.setState({feed: this.state.feed.push.apply(posts.data)});
+        console.log(posts);
+
+        this.state.feed.push.apply(posts.data);
+
+        this.setState({feed: this.state.feed});
     },
     render: function() {
         console.log(this.state);

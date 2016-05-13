@@ -34,7 +34,7 @@ router.get('/photos', function(req, res){
 });
 
 router.get('/feed', function(req, res){
-
+console.log(process.env.EVENTID);
     facebookService.getEventFeed(process.env.EVENTID, function(data){
         res.json(data);    
     });

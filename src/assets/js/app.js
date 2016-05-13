@@ -1,7 +1,7 @@
 
 var storedUsers = {};
 var host = location.origin.replace(/^http/, 'ws');
-
+/*
 var getEventUsersHandler = function(users){
 console.log(users);
     Object.keys(users).map(function(key){
@@ -31,14 +31,13 @@ var getEventPhotosHandler = function(photos){
         document.getElementById('view')
     );   
 };
+*/
 
-var getEventFeedHandler = function(feed){
+ReactDOM.render(
+    React.createElement(Feed),
+    document.getElementById('view')
+);       
 
-    ReactDOM.render(
-        React.createElement(Feed, {'feed': 'feed'}),
-        document.getElementById('view')
-    );       
-};
 
 var socket = io.connect(host);
     

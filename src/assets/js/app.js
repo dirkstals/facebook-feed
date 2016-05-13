@@ -1,6 +1,7 @@
 
 var storedUsers = {};
 var host = location.origin.replace(/^http/, 'ws');
+var socket = io.connect();
 /*
 var getEventUsersHandler = function(users){
 console.log(users);
@@ -33,17 +34,14 @@ var getEventPhotosHandler = function(photos){
 };
 */
 
-ReactDOM.render(
+var feedReactElement = ReactDOM.render(
     React.createElement(Feed),
     document.getElementById('view')
 );       
-
-
-var socket = io.connect(host);
     
 socket.on('data', function (data) {
     
-    Feed.handleNewPosts(data);
+    feedReactElement.handleNewPosts(data);
 });
 
 /*

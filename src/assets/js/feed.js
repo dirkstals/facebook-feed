@@ -13,17 +13,11 @@ var Feed = React.createClass({
     },
     handleNewPosts: function(posts) {
 
-        console.log(this.state.feed);
-        console.log(posts.data);
-        
-        Array.prototype.push.apply(this.state.feed, posts.data);
+        Array.prototype.push.apply(posts.data, this.state.feed);
 
-        console.log(this.state.feed);
-
-        this.setState({feed: this.state.feed});
+        this.setState({feed: posts.data});
     },
     render: function() {
-        console.log(this.state);
         return React.createElement(
             'ul', 
             {'id': 'feed'},

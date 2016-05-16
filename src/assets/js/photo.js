@@ -3,7 +3,7 @@ var Photo = React.createClass({
     render: function() {
         return React.createElement(
             'img', 
-            {'src': this.props.image}
+            {'src': this.props.item.image}
         );
     }
 });

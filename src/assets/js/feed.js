@@ -25,7 +25,8 @@ var Feed = React.createClass({
                 return React.createElement(
                     'li',
                     {'key': item.id},
-                    React.createElement('p', null, item.message)
+                    React.createElement(User, {item: item}),
+                    React.createElement(item.type == 'photo' ? Photo : Post, {item: item})
                 );
             })
         ); 

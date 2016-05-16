@@ -19,6 +19,13 @@ router.get('/', function(req, res){
     res.json({ message: 'hooray! welcome to our api!' }); 
 });
 
+router.get('/user', function(req, res){
+
+    facebookService.getUser(req.params.userid, function(data){
+        res.json(data);    
+    });
+});
+
 router.get('/users', function(req, res){
 
     facebookService.getEventUsers(process.env.EVENTID, function(data){

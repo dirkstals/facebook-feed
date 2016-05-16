@@ -64,6 +64,16 @@ var facebookService = (function(){
      * @function getEventUsers
      * @public
      */
+    var getUser = function(userId, callback){
+
+        _get('/' + userId, callback, [{'fields': 'picture,name'}, {'type': 'large'}]);
+    };
+
+
+    /**
+     * @function getEventUsers
+     * @public
+     */
     var getEventUsers = function(eventId, callback){
 
         _get('/' + eventId, function(data){
@@ -157,6 +167,7 @@ var facebookService = (function(){
 
     return {
         getEventPhotos: getEventPhotos,
+        getUser: getUser,
         getEventUsers: getEventUsers,
         getEventFeed: getEventFeed,
         getEventFeedSince: getEventFeedSince

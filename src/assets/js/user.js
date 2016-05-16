@@ -1,5 +1,16 @@
 var User = React.createClass({
     displayName: 'User',
+    getInitialState: function() {
+        return {feed: []};
+    },
+    componentDidMount: function() {
+
+        fetch('/api/user?userid=' + this.props.item.from.id).then(function(response) {
+            return response.json().then(function(data){
+                this.setState({feed: data.data});
+            }.bind(this));
+        }.bind(this));
+    },
     render: function() {
         return React.createElement(
             'div', 
@@ -7,11 +18,11 @@ var User = React.createClass({
             React.createElement(
                 'span',
                 null,
-                this.props.user.name
+                data.name
             ),
             React.createElement(
                 'img',
-                {'src': this.props.user.picture}
+                {'src': data.picture}
             )
         );
     }

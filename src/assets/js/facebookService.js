@@ -61,7 +61,18 @@ var facebookService = (function(){
 
 
     /**
-     * @function getEventUsers
+     * @function getPhoto
+     * @public
+     */
+    var getPhoto = function(photoId, callback){
+
+        _get('/' + photoId, callback, [{'fields': 'images'}]);
+    };
+
+
+
+    /**
+     * @function getUser
      * @public
      */
     var getUser = function(userId, callback){
@@ -168,6 +179,7 @@ var facebookService = (function(){
     return {
         getEventPhotos: getEventPhotos,
         getUser: getUser,
+        getPhoto: getPhoto,
         getEventUsers: getEventUsers,
         getEventFeed: getEventFeed,
         getEventFeedSince: getEventFeedSince

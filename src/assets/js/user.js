@@ -1,13 +1,16 @@
 var User = React.createClass({
     displayName: 'User',
     getInitialState: function() {
-        return {feed: []};
+        return {
+            name: '',
+            picture: ''
+        };
     },
     componentDidMount: function() {
 
-        fetch('/api/user?userid=' + this.props.item.from.id).then(function(response) {
+        fetch('/api/user/' + this.props.user.id).then(function(response) {
             return response.json().then(function(data){
-                this.setState({feed: data.data});
+                this.setState({name: data.name, picture: data.picture.data.url});
             }.bind(this));
         }.bind(this));
     },
@@ -18,11 +21,11 @@ var User = React.createClass({
             React.createElement(
                 'span',
                 null,
-                data.name
+                this.state.name
             ),
             React.createElement(
                 'img',
-                {'src': data.picture}
+                {'src': this.state.picture}
             )
         );
     }

@@ -32,6 +32,12 @@ module.exports = function(grunt) {
             html: {
                 src: 'src/index.html', dest: 'dist/index.html'
             }
+        },
+
+        uglify:{
+            options: {
+                compress: false
+            }
         }
     });
 

@@ -39,16 +39,9 @@ router.get('/users', function(req, res){
     });
 });
 
-router.get('/photos', function(req, res){
-
-    facebookService.getEventPhotos(process.env.EVENTID, function(data){
-        res.json(data);    
-    });
-});
-
 router.get('/feed', function(req, res){
 
-    facebookService.getEventFeed(process.env.EVENTID, function(data){
+    facebookService.getGroupFeed(process.env.EVENTID, function(data){
         res.json(data);    
     });
 });
@@ -79,7 +72,7 @@ app.get('/webhook', function (req, res) {
 
 app.post('/webhook', function (req, res) {
     console.log("FACEBOOK WEBHOOK");
-    facebookService.getEventFeedSince(process.env.EVENTID, function(data){
+    facebookService.getGroupFeedSince(process.env.EVENTID, function(data){
 
         if(data && data.data && data.data.length > 0){
 

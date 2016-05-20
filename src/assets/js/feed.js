@@ -8,6 +8,22 @@ var Feed = React.createClass({
         fetch('/api/feed').then(function(response) {
             return response.json().then(function(data){
                 this.setState({feed: data.data});
+
+                this.state.feed.map(function(item){
+
+                    if(item.attachments && item.attachments.data && item.attachments.data.length > 0){
+
+                        item.attachments.data.map(function(attachment){
+                            if(attachment.subattachments && attachment.subattachments.data  && attachment.subattachments.data.length > 0){
+                                attachment.subattachments.data.map(function(subattachment){
+                                    slideshowReactElement.addNewImage(subattachment.media.image.src);    
+                                });
+                            }else{
+                                slideshowReactElement.addNewImage(attachment.media.image.src);
+                            }
+                        })                        
+                    }
+                });
             }.bind(this));
         }.bind(this));
     },
@@ -26,7 +42,7 @@ var Feed = React.createClass({
                     'li',
                     {'key': item.id},
                     React.createElement(User, {user: storedUsers[item.from.id]}),
-                    React.createElement(item.type == 'photo' ? Photo : Post, {item: item})
+                    React.createElement(Post, {item: item})
                 );
             })
         ); 

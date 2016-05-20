@@ -46,21 +46,6 @@ var facebookService = (function(){
     
 
     /**
-     * @function getEventPhotos
-     * @public
-     */
-    var getEventPhotos = function(eventId, callback){
-
-        _get('/' + eventId + '/photos', function(data){
-
-            var photoIds = data.data.map(function(item){return item.id;});
-
-            _get('/', callback, [{'ids': photoIds.join(',')}, {'fields': 'images,from'}]);
-        });
-    };
-
-
-    /**
      * @function getPhoto
      * @public
      */
@@ -95,16 +80,16 @@ var facebookService = (function(){
      * @function getFeed
      * @public
      */
-    var getFeed = function(eventID, callback, since){
+    var getFeed = function(groupID, callback, since){
 
-        var params = [{'fields': 'id,message,likes.summary(1),type,object_id,from,updated_time'}];
+        var params = [{'fields': 'id,message,likes.summary(1),from,updated_time,attachments'}];
 
         if(since){
 
             params.push({'since': since});
         }
         
-        _get('/' + eventID + '/feed', function(data){
+        _get('/' + groupID + '/feed', function(data){
 
             if(data.data && data.data.length > 0 && data.data[0] && data.data[0].updated_time){
 
@@ -118,12 +103,12 @@ var facebookService = (function(){
 
 
     /**
-     * @function getEventFeed
+     * @function getGroupFeed
      * @public
      */
-    var getEventFeed = function(eventID, callback){
+    var getGroupFeed = function(groupID, callback){
 
-        getFeed(eventID, function(data){
+        getFeed(groupID, function(data){
 
             storedPosts = [];
 
@@ -142,12 +127,12 @@ var facebookService = (function(){
 
 
     /**
-     * @function getEventFeedSince
+     * @function getGroupFeedSince
      * @public
      */
-    var getEventFeedSince = function(eventID, callback){
+    var getGroupFeedSince = function(groupID, callback){
 
-        getFeed(eventID, function(data){
+        getFeed(groupID, function(data){
 
             if(data && data.data){
                    
@@ -169,12 +154,11 @@ var facebookService = (function(){
     
 
     return {
-        getEventPhotos: getEventPhotos,
         getUser: getUser,
         getPhoto: getPhoto,
         getGroupUsers: getGroupUsers,
-        getEventFeed: getEventFeed,
-        getEventFeedSince: getEventFeedSince
+        getGroupFeed: getGroupFeed,
+        getGroupFeedSince: getGroupFeedSince
     }
 
 })();

@@ -11,8 +11,12 @@ var Slideshow = React.createClass({
         this.interval = setInterval(this.kenBurns, 6000);     
     },
     addNewImage: function(image) {
+        var found = this.state.images.some(function (el) {return el.id === image.id;});
+        
+        if (!found) { 
 
-        this.setState({images: this.state.images.concat([image])});
+            this.setState({images: this.state.images.concat([image])});
+        }
     },
     kenBurns: function() {
 

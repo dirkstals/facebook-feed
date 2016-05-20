@@ -11,7 +11,7 @@
     "frame": true
   },
   "scripts": {
-    "start": "EVENTID=1278980158796276 USERTOKEN=EAAWj7QvYxVcBAK6CZBZC6E9PoFATpZCvZBqc0g09KTI1p5eI0ZAMPcN2c3epKJKGXh0JoA2hZCzODBLxiACtLUpqcwayLfeqf2WIN8AaWKwdJwa2YHLv2eUkEad61EacNWMiMRY0EZBJP5ZAKz2yDhFNYaukMvSVOOAZD node index.js",
+    "start": "node index.js",
     "build": "grunt"
   },
   "author": "",

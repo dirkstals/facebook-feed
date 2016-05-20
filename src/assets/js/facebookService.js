@@ -82,20 +82,12 @@ var facebookService = (function(){
 
 
     /**
-     * @function getEventUsers
+     * @function getGroupUsers
      * @public
      */
-    var getEventUsers = function(eventId, callback){
+    var getGroupUsers = function(groupId, callback){
 
-        _get('/' + eventId, function(data){
-
-            var attendingUserIds = data.attending ? data.attending.data.map(function(item){return item.id;}) : [];
-            var noreplyUserIds = data.noreply ? data.noreply.data.map(function(item){return item.id;}) : [];
-            var userIds = attendingUserIds.join(',') + ',' + noreplyUserIds.join(',');
-
-            _get('/', callback, [{'ids': userIds}, {'fields': 'picture,name'}, {'type': 'large'}]);
-
-        }, [{'fields': 'attending,noreply'}]);
+        _get('/' + groupId + '/members', callback, [{'fields': 'picture,name'}, {'type': 'large'}]);
     };
 
 
@@ -180,7 +172,7 @@ var facebookService = (function(){
         getEventPhotos: getEventPhotos,
         getUser: getUser,
         getPhoto: getPhoto,
-        getEventUsers: getEventUsers,
+        getGroupUsers: getGroupUsers,
         getEventFeed: getEventFeed,
         getEventFeedSince: getEventFeedSince
     }

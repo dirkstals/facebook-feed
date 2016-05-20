@@ -25,7 +25,7 @@ var Feed = React.createClass({
                 return React.createElement(
                     'li',
                     {'key': item.id},
-                    React.createElement(User, {user: item.from}),
+                    React.createElement(User, {user: storedUsers[item.from.id]}),
                     React.createElement(item.type == 'photo' ? Photo : Post, {item: item})
                 );
             })

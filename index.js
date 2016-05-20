@@ -34,7 +34,7 @@ router.get('/photo/:photoid', function(req, res){
 
 router.get('/users', function(req, res){
 
-    facebookService.getEventUsers(process.env.EVENTID, function(data){
+    facebookService.getGroupUsers(process.env.EVENTID, function(data){
         res.json(data);    
     });
 });
@@ -66,7 +66,8 @@ app.get('/', function(req, res){
 });
 
 app.get('/webhook', function (req, res) {
-
+    console.log("FACEBOOK WEBHOOK Authorization");
+    
     if (req.query['hub.verify_token'] === 'you_got_some_new_posts') {
 
         res.send(req.query['hub.challenge']);

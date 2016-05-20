@@ -62,7 +62,7 @@ var facebookService = (function(){
      */
     var getUser = function(userId, callback){
 
-        _get('/' + userId, callback, [{'fields': 'picture,name'}, {'type': 'large'}]);
+        _get('/' + userId, callback, [{'fields': 'picture.type(large),name'}]);
     };
 
 
@@ -72,7 +72,7 @@ var facebookService = (function(){
      */
     var getGroupUsers = function(groupId, callback){
 
-        _get('/' + groupId + '/members', callback, [{'fields': 'picture,name'}, {'type': 'large'}]);
+        _get('/' + groupId + '/members', callback, [{'fields': 'picture.type(large),name'}]);
     };
 
 

@@ -12,7 +12,7 @@ var Slideshow = React.createClass({
     },
     addNewImage: function(image) {
 
-        this.setState({images: this.state.images.concat([{src: image}])});
+        this.setState({images: this.state.images.concat([image])});
     },
     kenBurns: function() {
 
@@ -36,11 +36,11 @@ var Slideshow = React.createClass({
         return React.createElement(
             'div', 
             {id: 'slideshow'},
-            this.state.images.map(function (image, index) {
+            this.state.images.map(function (image) {
                 return React.createElement(
                     'div',
                     {
-                        key: index, 
+                        key: image.id, 
                         style: { backgroundImage: 'url("' + image.src + '")'} , 
                         className: image.className
                     }

@@ -3,17 +3,10 @@ var User = React.createClass({
     render: function() {
         return React.createElement(
             'div', 
-            null,
-            /*
-            React.createElement(
-                'span',
-                null,
-                this.props.user.name
-            ),
-            */
+            {className: 'post__from'},
             React.createElement(
                 'img',
-                {'src': this.props.user.picture}
+                {'src': this.props.user.picture, className: 'from'}
             )
         );
     }

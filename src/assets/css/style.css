@@ -9,6 +9,22 @@
     src: url("JaneAusten.woff") format("woff");
 }
 
+@font-face {
+    font-family: "Brannboll";
+    src: url("Brannboll.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Forelle";
+    src: url("Forelle.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Channel";
+    src: url("Channel.woff") format("woff");
+}
+
+
 html, body{
     height: 100%;
 }
@@ -177,9 +193,9 @@ html, body{
 }
 
 .message{
-    line-height: 50px;
-    font-family: "Jane Austen";
-    font-size: 2rem;
+    line-height: 1;
+    font-family: "Brannboll";
+    font-size: 4rem;
     color: white;
     color: rgba(0,0,0,.54);
 }

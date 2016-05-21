@@ -8,7 +8,7 @@ var Slideshow = React.createClass({
     componentDidUpdate: function() {
 
         clearInterval(this.interval);
-        this.interval = setInterval(this.kenBurns, 6000);     
+        this.interval = setInterval(this.kenBurns, 10000);     
     },
     addNewImage: function(image) {
         var found = this.state.images.some(function (el) {return el.id === image.id;});

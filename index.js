@@ -1,64 +1,100 @@
 
-var distFolder = '/dist';
-
 var express = require('express');
 var bodyParser = require('body-parser');
-var app = express();
-var router = express.Router();
-
 var facebookService = require('./src/assets/js/facebookService');
+var socketio = require('socket.io');
 
+var app = express();
+var APIRouter = express.Router();
+var distFolder = '/dist';
 var port = process.env.PORT || 3030;
+var server = app.listen(port, function(){
 
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
-
-// API
-router.get('/', function(req, res){
-
-    res.json({ message: 'hooray! welcome to our api!' }); 
+    console.log("\n\tWebserver started on port " + port + " ... \n");
 });
+var io = socketio(server);
 
-router.get('/user/:userid', function(req, res){
+
+
+/**
+ * @function _handleGroupFeedSince
+ * @private
+ */
+var _handleGroupFeedSince = function(data){
+
+    if(data && data.data && data.data.length > 0){
+
+        io.emit('data', data);
+    }else{
+
+        console.log('nothing\'s changed.');
+    }
+};
+
+
+/**
+ * @function _onUserRoute
+ * @private
+ */
+var _onUserRoute = function(req, res){
     facebookService.getUser(req.params.userid, function(data){
         res.json(data);    
     });
-});
+};
 
-router.get('/photo/:photoid', function(req, res){
+
+/**
+ * @function _onPhotoRoute
+ * @private
+ */
+var _onPhotoRoute = function(req, res){
 
     facebookService.getPhoto(req.params.photoid, function(data){
         res.json(data);    
     });
-});
+};
 
-router.get('/users', function(req, res){
+
+/**
+ * @function _onUsersRoute
+ * @private
+ */
+var _onUsersRoute = function(req, res){
 
     facebookService.getGroupUsers(process.env.EVENTID, function(data){
         res.json(data);    
     });
-});
+};
 
-router.get('/feed', function(req, res){
+
+/**
+ * @function _onFeedRoute
+ * @private
+ */
+var _onFeedRoute = function(req, res){
 
     facebookService.getGroupFeed(process.env.EVENTID, function(data){
         res.json(data);    
     });
-});
-
-app.use('/api', router);
+};
 
 
-// WEBSERVER
-app.use(express.static(__dirname));
-app.use(express.static(__dirname + distFolder));
-
-app.get('/', function(req, res){
+/**
+ * @function _onRoute
+ * @private
+ */
+var _onRoute = function(req, res){
 
     res.sendFile(__dirname + distFolder + '/index.html');
-});
+};
 
-app.get('/webhook', function (req, res) {
+
+/**
+ * @function _onWebhookRoute
+ * @private
+ */
+var _onWebhookRoute = function (req, res) {
+    
     console.log("FACEBOOK WEBHOOK Authorization");
     
     if (req.query['hub.verify_token'] === 'you_got_some_new_posts') {
@@ -68,35 +104,38 @@ app.get('/webhook', function (req, res) {
         
         res.send('Invalid verify token');
     }
-});
+};
 
-app.post('/webhook', function (req, res) {
+
+/**
+ * @function _onWebhookRoutePost
+ * @private
+ */
+var _onWebhookRoutePost = function (req, res) {
+
     console.log("FACEBOOK WEBHOOK");
-    facebookService.getGroupFeedSince(process.env.EVENTID, function(data){
 
-        if(data && data.data && data.data.length > 0){
-
-            io.emit('data', data);
-        }else{
-
-            console.log('nothing\'s changed.');
-        }
-    });
+    facebookService.getGroupFeedSince(process.env.EVENTID, _handleGroupFeedSince);
 
     res.sendStatus(200);
-});
+};
 
 
-var server = app.listen(port, function(){
-    
-    console.log('listening on *:' + port);
-});
 
 
-// SOCKET.IO
-var io = require('socket.io')(server);
+APIRouter.get('/user/:userid', _onUserRoute);
+APIRouter.get('/photo/:photoid', _onPhotoRoute);
+APIRouter.get('/users', _onUsersRoute);
+APIRouter.get('/feed', _onFeedRoute);
 
-io.on('connection', function (socket) {
-    
-    console.log('New client connected!');
-});
+app.use('/api', APIRouter);
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use(express.static(__dirname));
+app.use(express.static(__dirname + distFolder));
+
+app.get('/', _onRoute);
+app.get('/webhook', _onWebhookRoute);
+app.post('/webhook', _onWebhookRoutePost);
+
+

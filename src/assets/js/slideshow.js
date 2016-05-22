@@ -2,6 +2,7 @@ var Slideshow = React.createClass({
     displayName: 'Slideshow',
     i: 0,
     interval: null,
+    lastImage: 0,
     getInitialState: function() {
         return {images: []};
     },
@@ -10,13 +11,27 @@ var Slideshow = React.createClass({
         clearInterval(this.interval);
         this.interval = setInterval(this.kenBurns, 10000);     
     },
-    addNewImage: function(image) {
+    addNewImages: function(newImages) {
+
         var found = this.state.images.some(function (el) {return el.id === image.id;});
         
         if (!found) { 
 
-            this.setState({images: this.state.images.concat([image])});
+            var images = this.clearImages();
+            newImages[0].className = "fx";
+            this.setState({images: images.concat(newImages)});
         }
+    },
+    clearImages: function(){
+
+        var images = this.state.images;
+
+        images.map(function (item) {
+            item.className = "";
+            return item;
+        });
+
+        return images;
     },
     kenBurns: function() {
 

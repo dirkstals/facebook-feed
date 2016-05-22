@@ -23,20 +23,22 @@ var Feed = React.createClass({
     },
     createSlideshowFromPhotos: function(){
 
-         this.state.feed.map(function(item){
+        var images = [];
+
+        this.state.feed.map(function(item){
 
             if(item.attachments && item.attachments.data && item.attachments.data.length > 0){
 
                 item.attachments.data.map(function(attachment){
                     if(attachment.subattachments && attachment.subattachments.data  && attachment.subattachments.data.length > 0){
                         attachment.subattachments.data.map(function(subattachment){
-                            slideshowReactElement.addNewImage({
+                            images.push({
                                 id: subattachment.target.id,
                                 src: subattachment.media.image.src
                             });    
                         });
                     }else{
-                        slideshowReactElement.addNewImage({
+                        images.push({
                             id: attachment.target.id,
                             src: attachment.media.image.src
                         });
@@ -44,6 +46,8 @@ var Feed = React.createClass({
                 })                        
             }
         });
+
+        slideshowReactElement.addNewImages(images);
     },
     render: function() {
         return this.state.feed.length == 0 ? null : React.createElement(

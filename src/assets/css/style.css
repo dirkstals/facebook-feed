@@ -5,23 +5,8 @@
 }
 
 @font-face {
-    font-family: "Jane Austen";
-    src: url("JaneAusten.woff") format("woff");
-}
-
-@font-face {
-    font-family: "Brannboll";
-    src: url("Brannboll.woff") format("woff");
-}
-
-@font-face {
     font-family: "Forelle";
     src: url("Forelle.woff") format("woff");
-}
-
-@font-face {
-    font-family: "Channel";
-    src: url("Channel.woff") format("woff");
 }
 
 
@@ -79,15 +64,15 @@ html, body{
     background-size: cover;
     background-repeat: no-repeat;
     -webkit-transition-property: opacity, -webkit-transform;
-    -webkit-transition-duration: 3s, 10s;
+    -webkit-transition-duration: 3s, 15s;
        -moz-transition-property: opacity, -moz-transform;
-       -moz-transition-duration: 3s, 10s;
+       -moz-transition-duration: 3s, 15s;
         -ms-transition-property: opacity, -ms-transform;
-        -ms-transition-duration: 3s, 10s;
+        -ms-transition-duration: 3s, 15s;
          -o-transition-property: opacity, -o-transform;
-         -o-transition-duration: 3s, 10s;
+         -o-transition-duration: 3s, 15s;
             transition-property: opacity, transform;
-            transition-duration: 3s, 10s;
+            transition-duration: 3s, 15s;
 }
 
 /**
@@ -168,20 +153,20 @@ html, body{
     bottom: 0;
     left: 0;
     right: 0;
-    margin: 50px;
+    margin: 50px 20px 50px 50px;
 }
 
 .post__from{
-    width: 100px;
+    width: 130px;
     height: 100px;
-    display: inline-block;
+    display: block;
     vertical-align: text-bottom;
+    display: inline-block;
+    padding-right: 30px;
 }
 
 .post__message{
-    padding: 10px;
-    width: 80%;
-    box-sizing: border-box;
+    width: calc(100% - 130px);
     display: inline-block;
 }
 
@@ -194,8 +179,7 @@ html, body{
 
 .message{
     line-height: 1;
-    font-family: "Brannboll";
+    font-family: "Forelle";
     font-size: 4rem;
-    color: white;
-    color: rgba(0,0,0,.54);
+    color: rgba(0,0,0,.87);
 }

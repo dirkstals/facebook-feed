@@ -1,6 +1,6 @@
 var Slideshow = React.createClass({
     displayName: 'Slideshow',
-    i: 0,
+    i: 1,
     interval: null,
     lastImage: 0,
     getInitialState: function() {

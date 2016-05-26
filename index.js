@@ -15,7 +15,6 @@ var server = app.listen(port, function(){
 var io = socketio(server);
 
 
-
 /**
  * @function _handleGroupFeedSince
  * @private
@@ -90,6 +89,16 @@ var _onRoute = function(req, res){
 
 
 /**
+ * @function _onAdminRoute
+ * @private
+ */
+var _onAdminRoute = function(req, res){
+
+    res.sendFile(__dirname + distFolder + '/admin.html');
+};
+
+
+/**
  * @function _onWebhookRoute
  * @private
  */
@@ -135,7 +144,17 @@ app.use(express.static(__dirname));
 app.use(express.static(__dirname + distFolder));
 
 app.get('/', _onRoute);
+app.get('/admin', _onAdminRoute);
 app.get('/webhook', _onWebhookRoute);
 app.post('/webhook', _onWebhookRoutePost);
 
+io.on('connection', function(socket) {
+    
+    socket.on('refresh', function(){
+        io.emit('refresh');
+    });
 
+    socket.on('restart', function(){
+        process.exit();
+    });
+});

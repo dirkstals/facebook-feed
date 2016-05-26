@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+        <title>Facebook feed Admin</title>
+
+        <!-- build:css assets/admin.css -->
+        <link rel="stylesheet" href="assets/css/admin.css">
+        <!-- endbuild -->
+
+    </head>
+    
+    <body>
+
+        <div class="view">
+
+            <div class="status">
+                <span id="socket-status"></span> Socket <span id="socket-text"></span>
+            </div>
+
+            <button id="refresh" class="action-button ripple">Restart App</button>
+
+            <button id="restart" class="action-button ripple">Restart Server</button>
+
+        </div>
+
+        <script src="/socket.io/socket.io.js"></script>
+
+        <!-- build:js assets/admin.js -->
+
+            <!-- main script -->
+            <script src="assets/js/admin.js"></script>
+
+        <!-- endbuild -->
+
+    </body>
+
+</html>

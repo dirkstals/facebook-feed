@@ -18,6 +18,8 @@ var _init = function(){
 
     socket = io.connect();
 
+    socket.on('refresh', _refreshPage);
+
     fetch('/api/users').then(function (response) {
         return response.json().then(_getGroupUsersHandler);
     });
@@ -42,6 +44,16 @@ var _getGroupUsersHandler = function(users){
     feedReactElement = ReactDOM.render(React.createElement(Feed), viewDOMElement);
     
     socket.on('data', feedReactElement.handleNewPosts);
+};
+
+
+/**
+ * @function _refreshPage
+ * @private
+ */
+var _refreshPage = function(users){
+   
+    window.location.reload();
 };
 
 

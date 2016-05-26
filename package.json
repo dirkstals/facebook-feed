@@ -11,7 +11,7 @@
     "frame": true
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node autostart.js",
     "build": "grunt"
   },
   "author": "",

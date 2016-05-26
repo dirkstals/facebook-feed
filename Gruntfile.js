@@ -6,14 +6,22 @@ module.exports = function(grunt) {
     grunt.initConfig({
 
         useminPrepare: {
-            html: 'src/index.html',
             options: {
+                type: 'html',
                 dest: 'dist'
+            },
+            files: {
+                src: ['src/index.html', 'src/admin.html']
             }
         },
 
         usemin: {
-            html: ['dist/index.html']
+            options: {
+                type: 'html'
+            },
+            files: {
+                src: ['dist/index.html', 'dist/admin.html']
+            }
         },
         
         htmlmin: {
@@ -23,14 +31,19 @@ module.exports = function(grunt) {
                     collapseWhitespace: true
                 },
                 files: {
-                    'dist/index.html': 'dist/index.html'
+                    'dist/index.html': 'dist/index.html',
+                    'dist/admin.html': 'dist/admin.html'
                 }
             }
         },
 
         copy:{
             html: {
-                src: 'src/index.html', dest: 'dist/index.html'
+                expand: true, 
+                cwd: 'src',
+                src: ['*'], 
+                dest: 'dist/',
+                filter: 'isFile'
             },
             fonts: {
                 cwd: 'src/assets/fonts', src: ['**'], dest: 'dist/assets/', expand: true

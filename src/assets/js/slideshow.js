@@ -12,7 +12,7 @@ var Slideshow = React.createClass({
         this.interval = setInterval(this.kenBurns, 10000);     
     },
     componentDidMount: function(){
-        
+
         setTimeout(function(){
             document.body.classList.add('loaded');
         }, 3000);
@@ -21,7 +21,12 @@ var Slideshow = React.createClass({
         
         clearInterval(this.interval);
 
-        var found = this.state.images.some(function (el) {return el.id === image.id;});
+        var found = 
+            this.newImages.some(function(newImage){
+                return this.state.images.some(function (image) {
+                    return image.id === newImage.id;
+                });
+            });
         
         if (!found) { 
 

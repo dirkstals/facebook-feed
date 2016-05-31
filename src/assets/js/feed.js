@@ -47,8 +47,8 @@ var Feed = React.createClass({
             }
         });
 
-        console.log('new images');
-        
+        console.log('new images', images);
+
         slideshowReactElement.addNewImages(images);
     },
     render: function() {

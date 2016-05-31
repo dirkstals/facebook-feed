@@ -1,7 +1,7 @@
 
 var express = require('express');
 var bodyParser = require('body-parser');
-var facebookService = require('./src/assets/js/facebookService');
+var facebookService = require('./facebookService');
 var socketio = require('socket.io');
 
 var app = express();

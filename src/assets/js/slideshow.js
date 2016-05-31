@@ -11,6 +11,12 @@ var Slideshow = React.createClass({
         clearInterval(this.interval);
         this.interval = setInterval(this.kenBurns, 10000);     
     },
+    componentDidMount: function(){
+        
+        setTimeout(function(){
+            document.body.classList.add('loaded');
+        }, 3000);
+    },
     addNewImages: function(newImages) {
         
         clearInterval(this.interval);
@@ -21,7 +27,7 @@ var Slideshow = React.createClass({
 
             var images = this.clearImages();
             newImages[0].className = "fx";
-            this.i = 1;
+            this.i = images.length;
             this.setState({images: images.concat(newImages)});
         }
     },

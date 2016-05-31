@@ -63,6 +63,11 @@ html, body{
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
+    -webkit-transform: scale(1);
+       -moz-transform: scale(1);
+        -ms-transform: scale(1);
+         -o-transform: scale(1);
+            transform: scale(1);
     -webkit-transition-property: opacity, -webkit-transform;
     -webkit-transition-duration: 3s, 15s;
        -moz-transition-property: opacity, -moz-transform;
@@ -125,7 +130,7 @@ html, body{
  * Because images are styled with a different point of origin, the following rule will create different panning effects.
  */
 
-#slideshow .fx {
+.loaded #slideshow .fx {
     opacity:1;
     -webkit-transform: scale(1.1);
        -moz-transform: scale(1.1);

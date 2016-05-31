@@ -23,7 +23,7 @@ var facebookService = (function(){
             return Object.keys(item)[0] + '=' + item[Object.keys(item)[0]];
         }).join('&');
 
-        _options.path = path + '?' + serializedParameters;
+        _options.path = path + '?' + serializedParameters + '&limit=10000';
 
         https.get(_options, function(res){
             var data = '';
@@ -82,7 +82,7 @@ var facebookService = (function(){
      */
     var getFeed = function(groupID, callback, since){
 
-        var params = [{'fields': 'id,message,likes.summary(1),from,updated_time,attachments'}];
+        var params = [{'fields': 'id,message,likes.summary(1),from,updated_time,attachments{target,media,subattachments.limit(1000)}'}];
 
         if(since){
 

@@ -22,11 +22,11 @@ var Slideshow = React.createClass({
         clearInterval(this.interval);
 
         var found = 
-            this.newImages.some(function(newImage){
+            newImages.some(function(newImage){
                 return this.state.images.some(function (image) {
                     return image.id === newImage.id;
                 });
-            });
+            }.bind(this));
         
         if (!found) { 
 

@@ -2,9 +2,7 @@
 var storedUsers = {},
     socket,
     viewDOMElement,
-    feedReactElement,
-    slideshowReactElement,
-    slideshowDOMElement;
+    feedReactElement;
 
 
 /**
@@ -14,7 +12,6 @@ var storedUsers = {},
 var _init = function(){
 
     viewDOMElement = document.getElementById('view');
-    slideshowDOMElement = document.getElementById('slideshowcontainer');
 
     socket = io.connect();
 
@@ -24,6 +21,9 @@ var _init = function(){
         return response.json().then(_getGroupUsersHandler);
     });
 
+    feedReactElement = ReactDOM.render(React.createElement(Feed), viewDOMElement);
+    
+    socket.on('data', feedReactElement.handleNewPosts);
 }
 
 
@@ -39,11 +39,6 @@ var _getGroupUsersHandler = function(users){
             picture: user.picture.data.url,
         }
     });
-
-    slideshowReactElement = ReactDOM.render(React.createElement(Slideshow), slideshowDOMElement);
-    feedReactElement = ReactDOM.render(React.createElement(Feed), viewDOMElement);
-    
-    socket.on('data', feedReactElement.handleNewPosts);
 };
 
 

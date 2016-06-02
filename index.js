@@ -15,43 +15,9 @@ var server = app.listen(port, function(){
 var io = socketio(server);
 
 
-/**
- * @function _handleGroupFeedSince
- * @private
- */
-var _handleGroupFeedSince = function(data){
-
-    if(data && data.data && data.data.length > 0){
-
-        io.emit('data', data);
-    }else{
-
-        console.log('nothing\'s changed.');
-    }
-};
-
-
-/**
- * @function _onUserRoute
- * @private
- */
-var _onUserRoute = function(req, res){
-    facebookService.getUser(req.params.userid, function(data){
-        res.json(data);    
-    });
-};
-
-
-/**
- * @function _onPhotoRoute
- * @private
- */
-var _onPhotoRoute = function(req, res){
-
-    facebookService.getPhoto(req.params.photoid, function(data){
-        res.json(data);    
-    });
-};
+var posts,
+    users,
+    heartbeatTimeout;
 
 
 /**
@@ -60,9 +26,7 @@ var _onPhotoRoute = function(req, res){
  */
 var _onUsersRoute = function(req, res){
 
-    facebookService.getGroupUsers(process.env.EVENTID, function(data){
-        res.json(data);    
-    });
+    res.json(users);
 };
 
 
@@ -72,9 +36,7 @@ var _onUsersRoute = function(req, res){
  */
 var _onFeedRoute = function(req, res){
 
-    facebookService.getGroupFeed(process.env.EVENTID, function(data){
-        res.json(data);    
-    });
+    res.json(posts.slice(0).sort( function() { return 0.5 - Math.random() } ).slice(0, 10));
 };
 
 
@@ -124,16 +86,131 @@ var _onWebhookRoutePost = function (req, res) {
 
     console.log("FACEBOOK WEBHOOK");
 
-    facebookService.getGroupFeedSince(process.env.EVENTID, _handleGroupFeedSince);
+    clearTimeout(heartbeatTimeout);
+
+    _heartbeat();
 
     res.sendStatus(200);
 };
 
 
 
+/**
+ * @function _startUp
+ * @private
+ */
+var _startUp = function(){
 
-APIRouter.get('/user/:userid', _onUserRoute);
-APIRouter.get('/photo/:photoid', _onPhotoRoute);
+    facebookService.getGroupFeed(process.env.EVENTID, function(data){
+        
+        posts = [];
+
+        _convertFeedToPosts(data);
+    });
+
+    facebookService.getGroupUsers(process.env.EVENTID, function(data){
+
+        users = data;
+    });
+
+    heartbeatTimeout = setTimeout(_heartbeat, 1 * 60 * 1000);
+};
+
+
+/**
+ * @function _heartbeat
+ * @private
+ */
+var _heartbeat = function(){
+
+    facebookService.getGroupFeedSince(process.env.EVENTID, _handleGroupFeedSince);
+
+    heartbeatTimeout = setTimeout(_heartbeat, 1 * 60 * 1000);
+};
+
+
+/**
+ * @function _handleGroupFeedSince
+ * @private
+ */
+var _handleGroupFeedSince = function(data){
+
+    _convertFeedToPosts(data);
+};
+
+
+
+
+/**
+ * @function _convertFeedToPosts
+ * @private
+ */
+var _convertFeedToPosts = function(data){
+
+    if(data && data.data){
+
+        data.data.map(function(item){
+
+            if(item.attachments && item.attachments.data && item.attachments.data.length > 0){
+
+                item.attachments.data.map(function(attachment){
+              
+                    var post = {
+                        message: attachment.description || item.message || '',
+                        from: item.from,
+                        id: attachment.target.id
+                    };
+
+                    if(item.comments && item.comments.data && item.comments.data.length > 0){
+
+                        post.message = item.comments.data[0].message;
+                        post.from = item.comments.data[0].from;
+                    }
+
+                    if(attachment.subattachments && attachment.subattachments.data  && attachment.subattachments.data.length > 0){
+
+                        attachment.subattachments.data.map(function(subattachment){
+
+                            post.message = subattachment.description || post.message;
+                            post.id = subattachment.target.id;
+                            post.src = subattachment.media.image.src;
+                        
+                            _addPost(post);
+                        });
+                    }else{
+
+                        post.src = attachment.media.image.src;
+
+                        _addPost(post);
+                    }
+                })                        
+            }
+
+        });
+    }
+}
+
+
+/**
+ * @function _addPost
+ * @private
+ */
+var _addPost = function(post){
+
+    var itemIndex = posts.findIndex(function(item){ return item.id === post.id});
+
+    if(itemIndex > -1){
+
+        posts[itemIndex] = post;
+    }else{
+
+        posts.push(post);
+    } 
+
+    io.emit('data', post);
+};
+
+
 APIRouter.get('/users', _onUsersRoute);
 APIRouter.get('/feed', _onFeedRoute);
 
@@ -158,3 +235,5 @@ io.on('connection', function(socket) {
         process.exit();
     });
 });
+
+_startUp();

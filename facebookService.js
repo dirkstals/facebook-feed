@@ -82,7 +82,7 @@ var facebookService = (function(){
      */
     var getFeed = function(groupID, callback, since){
 
-        var params = [{'fields': 'id,message,likes.summary(1),from,updated_time,attachments{target,media,subattachments.limit(1000)}'}];
+        var params = [{'fields': 'id,message,likes.summary(1),from,updated_time,attachments{target,media,subattachments.limit(1000)},comments.order(reverse_chronological)'}];
 
         if(since){
 

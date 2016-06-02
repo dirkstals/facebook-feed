@@ -25,24 +25,22 @@ html, body{
  * position is used to make this box a containing block (it becomes a reference for its absolutely positioned children). overflow will hide part of the images moving outside of the box.
  */
 
-.slideshowshadow{
-    box-shadow: inset 0 -30vh 30vh 0 #fff;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    z-index: 2;
-}
 
 
 
-#slideshow {
+.post__container > div {
     position:fixed;
     left: 0;
     top: 0;
     width:100%;
     height:100%;
     overflow:hidden;
+    opacity: 0;
     z-index: 1;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 3s;
+            transition-property: opacity;
+            transition-duration: 3s;
 }
 
 /**
@@ -52,32 +50,39 @@ html, body{
  * Because the images are now larger than their parent container, we use top, left and margin values to align them in the center of the box.
  * Finally, we set the transition (property and duration). Note that duration values are different for opacity and transform as we want the "fade-in" effect to be faster than the "panning" effect.
  */
-
-#slideshow div {
+.post__picture {
     position:absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    opacity:0;
+}
+
+/*
+.post__picture:after{
+    content: "";
+    box-shadow: inset 0 -30vh 30vh 0 #fff;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+*/
+
+.picture {
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
     -webkit-transform: scale(1);
-       -moz-transform: scale(1);
-        -ms-transform: scale(1);
-         -o-transform: scale(1);
             transform: scale(1);
-    -webkit-transition-property: opacity, -webkit-transform;
-    -webkit-transition-duration: 3s, 15s;
-       -moz-transition-property: opacity, -moz-transform;
-       -moz-transition-duration: 3s, 15s;
-        -ms-transition-property: opacity, -ms-transform;
-        -ms-transition-duration: 3s, 15s;
-         -o-transition-property: opacity, -o-transform;
-         -o-transition-duration: 3s, 15s;
-            transition-property: opacity, transform;
-            transition-duration: 3s, 15s;
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 15s;
+            transition-property: transform;
+            transition-duration: 15s;
 }
 
 /**
@@ -85,34 +90,23 @@ html, body{
  * This technique allows us to create various paths while applying the same translate() values to all images (see the 'fx' class further below).
  */
 
-#slideshow div  {
+.post__container .picture  {
     -webkit-transform-origin: bottom left;
-       -moz-transform-origin: bottom left;
-        -ms-transform-origin: bottom left;
-         -o-transform-origin: bottom left;
             transform-origin: bottom left;
 }
 
-#slideshow :nth-child(2n+1) {
+.post__container > div:nth-child(2n+1) .picture {
     -webkit-transform-origin: top right;
-       -moz-transform-origin: top right;
-        -ms-transform-origin: top right;
-         -o-transform-origin: top right;
             transform-origin: top right;
 }
 
-#slideshow :nth-child(3n+1) {
+.post__container > div:nth-child(3n+1) .picture {
     -webkit-transform-origin: top left;
-       -moz-transform-origin: top left;
-        -ms-transform-origin: top left;
-         -o-transform-origin: top left;
             transform-origin: top left;
 }
-#slideshow :nth-child(4n+1) {
+
+.post__container > div:nth-child(4n+1) .picture {
   -webkit-transform-origin: bottom right;
-     -moz-transform-origin: bottom right;
-      -ms-transform-origin: bottom right;
-       -o-transform-origin: bottom right;
           transform-origin: bottom right;
 }
 
@@ -122,7 +116,7 @@ html, body{
  * This is because the second image needs to show on top of the first one when it transitions in.
  */
 
-#slideshow .fx:first-child + div ~ div  {
+.post__container .fx:first-child + div ~ div  {
     z-index:-1;
 }
 
@@ -130,29 +124,18 @@ html, body{
  * Because images are styled with a different point of origin, the following rule will create different panning effects.
  */
 
-.loaded #slideshow .fx {
+.post__container .fx {
     opacity:1;
+}
+
+.post__container .fx .picture {
     -webkit-transform: scale(1.1);
-       -moz-transform: scale(1.1);
-        -ms-transform: scale(1.1);
-         -o-transform: scale(1.1);
             transform: scale(1.1);
 }
 
 
 
-#view{
-    position: fixed;
-    display: block;
-    width: 100%;
-    height: 100%;
-    z-index: 3;
-}
-
-
-
-
-.post__container{
+.post__bottom{
     position: absolute;
     z-index: 1;
     bottom: 0;
@@ -168,11 +151,13 @@ html, body{
     vertical-align: text-bottom;
     display: inline-block;
     padding-right: 30px;
+    position: relative;
 }
 
 .post__message{
     width: calc(100% - 130px);
     display: inline-block;
+    position: relative;
 }
 
 .from{
@@ -185,6 +170,7 @@ html, body{
 .message{
     line-height: 1;
     font-family: "Forelle";
-    font-size: 4rem;
-    color: rgba(0,0,0,.87);
+    font-size: 6rem;
+    color: #FFF;
+    text-shadow: 0 0 20px #000;
 }

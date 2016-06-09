@@ -141,7 +141,8 @@ html, body{
     bottom: 0;
     left: 0;
     right: 0;
-    margin: 50px 20px 50px 50px;
+    padding: 50px 20px 50px 50px;
+    background: linear-gradient(transparent 0%, black 140%);
 }
 
 .post__from{
@@ -171,6 +172,6 @@ html, body{
     line-height: 1;
     font-family: "Forelle";
     font-size: 6rem;
-    color: #FFF;
+    color: rgba(255,255,255,0.87);
     text-shadow: 0 0 20px #000;
 }

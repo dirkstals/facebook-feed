@@ -9,23 +9,37 @@ var Feed = React.createClass({
     },
     componentDidMount: function() {
 
+        this.getNewPosts();
+    },
+    getNewPosts: function(delay){
+        
         fetch('/api/feed').then(function(response) {
 
             return response.json().then(function(data){
 
-                data[0].className = 'fx';
-                
                 this.handleNewPosts(data);
 
                 clearInterval(this.interval);
-                this.interval = setInterval(this.kenBurns, 10 * 1000);
+                setTimeout(function(){
+                    this.kenBurns();
+                    this.interval = setInterval(this.kenBurns, 10000);
+                }.bind(this), 5000);
 
             }.bind(this));
         }.bind(this));
     },
     handleNewPosts: function(posts) {
 
-        Array.prototype.push.apply(posts, this.state.feed);
+        var fxArray = this.state.feed.filter(function(item) {
+            return (item.className && item.className === 'fx');
+        });
+
+        if(fxArray.length > 0 && fxArray[1]){
+            this.i = 1;
+            posts.unshift(fxArray[1]);
+        }
+
+        posts[0].className = 'fx';
 
         this.setState({feed: posts});
 
@@ -48,6 +62,11 @@ var Feed = React.createClass({
         this.setState({feed: posts});
 
         this.i++;
+
+        if(this.i == posts.length){ 
+
+            setTimeout(this.getNewPosts, 5000);
+        }
     },
     render: function() {
         return this.state.feed.length == 0 ? null : React.createElement(

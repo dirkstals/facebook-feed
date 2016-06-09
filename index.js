@@ -35,8 +35,10 @@ var _onUsersRoute = function(req, res){
  * @private
  */
 var _onFeedRoute = function(req, res){
-
-    res.json(posts.slice(0).sort( function() { return 0.5 - Math.random() } ).slice(0, 10));
+    
+    if(posts){
+        res.json(posts.slice(0).sort( function() { return 0.5 - Math.random() } ).slice(0, 13));
+    }
 };
 
 
@@ -156,9 +158,9 @@ var _convertFeedToPosts = function(data){
                 item.attachments.data.map(function(attachment){
               
                     var post = {
-                        message: attachment.description || item.message || '',
+                        id: attachment.target.id,
                         from: item.from,
-                        id: attachment.target.id
+                        message: attachment.description || item.message || attachment.title || ''
                     };
 
                     if(item.comments && item.comments.data && item.comments.data.length > 0){
@@ -171,11 +173,12 @@ var _convertFeedToPosts = function(data){
 
                         attachment.subattachments.data.map(function(subattachment){
 
-                            post.message = subattachment.description || post.message;
-                            post.id = subattachment.target.id;
-                            post.src = subattachment.media.image.src;
-                        
-                            _addPost(post);
+                            _addPost({
+                                id: subattachment.target.id,
+                                from: post.from,
+                                message: subattachment.description || post.message,
+                                src: subattachment.media.image.src
+                            });
                         });
                     }else{
 
@@ -200,7 +203,7 @@ var _addPost = function(post){
     var itemIndex = posts.findIndex(function(item){ return item.id === post.id});
 
     if(itemIndex > -1){
-
+        
         posts[itemIndex] = post;
     }else{
 

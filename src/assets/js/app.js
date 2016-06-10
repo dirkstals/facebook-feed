@@ -23,7 +23,7 @@ var _init = function(){
 
     feedReactElement = ReactDOM.render(React.createElement(Feed), viewDOMElement);
     
-    socket.on('data', feedReactElement.handleNewPosts);
+    socket.on('data', feedReactElement.addLatestPosts);
 }
 
 

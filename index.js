@@ -37,7 +37,7 @@ var _onUsersRoute = function(req, res){
 var _onFeedRoute = function(req, res){
     
     if(posts){
-        res.json(posts.slice(0).sort( function() { return 0.5 - Math.random() } ).slice(0, 13));
+        res.json(_shuffle(posts.slice(0)).slice(0, 13));
     }
 };
 
@@ -160,7 +160,7 @@ var _convertFeedToPosts = function(data){
                     var post = {
                         id: attachment.target.id,
                         from: item.from,
-                        message: attachment.description || item.message || attachment.title || ''
+                        message: attachment.description || item.message || '' // attachment.title || 
                     };
 
                     if(item.comments && item.comments.data && item.comments.data.length > 0){
@@ -212,6 +212,31 @@ var _addPost = function(post){
 
     io.emit('data', post);
 };
+
+
+/**
+ * @function _shuffle
+ * @private
+ */
+function _shuffle(array) {
+
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
 
 
 APIRouter.get('/users', _onUsersRoute);

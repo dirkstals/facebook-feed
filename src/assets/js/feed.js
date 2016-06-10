@@ -28,6 +28,22 @@ var Feed = React.createClass({
             }.bind(this));
         }.bind(this));
     },
+    addLatestPosts: function(newPosts){
+
+        var posts = this.state.feed.slice(0);
+
+        var fxIndex = posts.reverse.findIndex(function(item) {
+            return (item.className && item.className === 'fx');
+        });        
+
+        posts.splice.apply(posts, [fxIndex, 0].concat(newPosts));
+
+        this.setState({feed: posts});
+
+        clearInterval(this.interval);
+        this.kenBurns();
+        this.interval = setInterval(this.kenBurns, 10000);
+    },
     handleNewPosts: function(posts) {
 
         var fxArray = this.state.feed.filter(function(item) {

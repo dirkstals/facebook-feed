@@ -38,7 +38,7 @@ var Feed = React.createClass({
 
         var posts = this.state.feed.slice(0);     
 
-        posts.splice.apply(posts, [this.i + 1, 0].concat(newPosts));
+        posts.splice.apply(posts, [this.i, 0].concat(newPosts));
 
         this.setState({feed: posts});
 

@@ -46,6 +46,8 @@ var Feed = React.createClass({
     },
     handleNewPosts: function(posts) {
 
+        console.log('handleNewPosts', posts);
+
         var fxArray = this.state.feed.filter(function(item) {
             return (item.className && item.className === 'fx');
         });

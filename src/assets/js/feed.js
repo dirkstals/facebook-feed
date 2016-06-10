@@ -49,7 +49,7 @@ var Feed = React.createClass({
         this.timeout = setTimeout(function(){
             this.kenBurns();
             this.interval = setInterval(this.kenBurns, this.delay);
-        }.bind(this), this.delay * 2);
+        }.bind(this), this.delay);
     },
     handleNewPosts: function(posts) {
 

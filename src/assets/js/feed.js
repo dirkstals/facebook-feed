@@ -30,40 +30,29 @@ var Feed = React.createClass({
     },
     addLatestPosts: function(newPosts){
 
-        var posts = this.state.feed.slice(0);
+        var posts = this.state.feed.slice(0);     
 
-        var fxIndex = posts.reverse().findIndex(function(item) {
-            return (item.className && item.className === 'fx');
-        });        
-
-        posts.splice.apply(posts, [fxIndex, 0].concat(newPosts));
-
-        posts[fxIndex].className = 'fx';
-
-        posts.reverse();
+        posts.splice.apply(posts, [this.i + 1, 0].concat(newPosts));
 
         this.setState({feed: posts});
 
         clearInterval(this.interval);
         this.kenBurns();
-        this.interval = setInterval(this.kenBurns, 10000);
+        setTimeout(function(){
+            this.kenBurns();
+            this.interval = setInterval(this.kenBurns, 10000);
+        }.bind(this), 20000);
     },
     handleNewPosts: function(posts) {
 
-        var fxArray = this.state.feed.filter(function(item) {
-            return (item.className && item.className === 'fx');
-        });
-
-        if(fxArray.length > 0 && fxArray[1]){
+        if(this.state.feed.length > 0){
+            posts.unshift(this.state.feed[this.i]);
             this.i = 1;
-            posts.unshift(fxArray[1]);
         }
 
         posts[0].className = 'fx';
 
         this.setState({feed: posts});
-
-        // slideshowReactElement.addNewImages(this.state.feed);
     },
     kenBurns: function() {
 

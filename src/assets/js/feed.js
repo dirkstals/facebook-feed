@@ -38,6 +38,8 @@ var Feed = React.createClass({
 
         posts.splice.apply(posts, [fxIndex, 0].concat(newPosts));
 
+        posts.reverse();
+
         this.setState({feed: posts});
 
         clearInterval(this.interval);
@@ -45,8 +47,6 @@ var Feed = React.createClass({
         this.interval = setInterval(this.kenBurns, 10000);
     },
     handleNewPosts: function(posts) {
-
-        console.log('handleNewPosts', posts);
 
         var fxArray = this.state.feed.filter(function(item) {
             return (item.className && item.className === 'fx');

@@ -42,7 +42,10 @@ var Feed = React.createClass({
 
         this.setState({feed: posts});
 
-        this.kenBurns();
+        this.timeout = setTimeout(function(){
+            this.kenBurns();
+        }.bind(this), 10);
+        
         this.timeout = setTimeout(function(){
             this.kenBurns();
             this.interval = setInterval(this.kenBurns, this.delay);

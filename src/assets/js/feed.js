@@ -1,7 +1,9 @@
 var Feed = React.createClass({
     displayName: 'Feed',
-    i: 1,
+    i: 0,
     interval: null,
+    timeout: null,
+    delay: 10000,
     getInitialState: function() {
         return {
             feed: []
@@ -20,15 +22,19 @@ var Feed = React.createClass({
                 this.handleNewPosts(data);
 
                 clearInterval(this.interval);
-                setTimeout(function(){
+                clearTimeout(this.timeout);
+                this.timeout = setTimeout(function(){
                     this.kenBurns();
-                    this.interval = setInterval(this.kenBurns, 10000);
-                }.bind(this), 5000);
+                    this.interval = setInterval(this.kenBurns, this.delay);
+                }.bind(this), this.delay / 3);
 
             }.bind(this));
         }.bind(this));
     },
     addLatestPosts: function(newPosts){
+
+        clearInterval(this.interval);
+        clearTimeout(this.timeout);
 
         var posts = this.state.feed.slice(0);     
 
@@ -36,21 +42,20 @@ var Feed = React.createClass({
 
         this.setState({feed: posts});
 
-        clearInterval(this.interval);
         this.kenBurns();
-        setTimeout(function(){
+        this.timeout = setTimeout(function(){
             this.kenBurns();
-            this.interval = setInterval(this.kenBurns, 10000);
-        }.bind(this), 20000);
+            this.interval = setInterval(this.kenBurns, this.delay);
+        }.bind(this), this.delay * 2);
     },
     handleNewPosts: function(posts) {
 
         if(this.state.feed.length > 0){
-            posts.unshift(this.state.feed[this.i]);
-            this.i = 1;
-        }
 
-        posts[0].className = 'fx';
+            posts.unshift(this.state.feed[this.i - 1]);
+        }
+    
+        this.i = 0;
 
         this.setState({feed: posts});
     },
@@ -72,9 +77,10 @@ var Feed = React.createClass({
 
         this.i++;
 
-        if(this.i == posts.length){ 
+        if(this.i == posts.length ){ 
 
-            setTimeout(this.getNewPosts, 5000);
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(this.getNewPosts, this.delay / 2);
         }
     },
     render: function() {

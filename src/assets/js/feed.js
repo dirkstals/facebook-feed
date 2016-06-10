@@ -32,7 +32,7 @@ var Feed = React.createClass({
 
         var posts = this.state.feed.slice(0);
 
-        var fxIndex = posts.reverse.findIndex(function(item) {
+        var fxIndex = posts.reverse().findIndex(function(item) {
             return (item.className && item.className === 'fx');
         });        
 

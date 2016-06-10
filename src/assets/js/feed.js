@@ -38,6 +38,8 @@ var Feed = React.createClass({
 
         posts.splice.apply(posts, [fxIndex, 0].concat(newPosts));
 
+        posts[fxIndex].className = 'fx';
+
         posts.reverse();
 
         this.setState({feed: posts});

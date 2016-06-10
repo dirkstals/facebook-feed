@@ -1,6 +1,6 @@
 var Feed = React.createClass({
     displayName: 'Feed',
-    i: 0,
+    i: 1,
     interval: null,
     timeout: null,
     delay: 10000,
@@ -58,7 +58,7 @@ var Feed = React.createClass({
             posts.unshift(this.state.feed[this.i - 1]);
         }
     
-        this.i = 0;
+        this.i = 1;
 
         this.setState({feed: posts});
     },

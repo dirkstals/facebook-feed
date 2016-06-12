@@ -10,6 +10,7 @@ html, body{
     font-size: 14px;
     font-weight: bold;
     font-family: Arial;
+    height: 100%;
 }
 
 .view{

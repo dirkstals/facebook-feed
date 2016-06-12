@@ -81,8 +81,3 @@ html, body{
      90%{ transform: scale(50); -webkit-transform: -webkit-scale(50); }
     100%{ transform: scale(50); -webkit-transform: -webkit-scale(50); opacity: 0; }
 }
-
-
-#filler{
-    height: calc(100vh - 270px);
-}

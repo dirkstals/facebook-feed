@@ -1,6 +1,6 @@
 var Feed = React.createClass({
     displayName: 'Feed',
-    i: 1,
+    i: 0,
     interval: null,
     timeout: null,
     delay: 10000,
@@ -43,13 +43,15 @@ var Feed = React.createClass({
         this.setState({feed: posts});
 
         this.timeout = setTimeout(function(){
+            
             this.kenBurns();
+
+            this.timeout = setTimeout(function(){
+                this.kenBurns();
+                this.interval = setInterval(this.kenBurns, this.delay);
+            }.bind(this), this.delay);
+
         }.bind(this), 10);
-        
-        this.timeout = setTimeout(function(){
-            this.kenBurns();
-            this.interval = setInterval(this.kenBurns, this.delay);
-        }.bind(this), this.delay);
     },
     handleNewPosts: function(posts) {
 

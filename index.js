@@ -127,7 +127,7 @@ var _heartbeat = function(){
 
     facebookService.getGroupFeedSince(process.env.EVENTID, _handleGroupFeedSince);
 
-    heartbeatTimeout = setTimeout(_heartbeat, 1 * 60 * 1000);
+    heartbeatTimeout = setTimeout(_heartbeat, 5 * 60 * 1000);
 };
 
 
@@ -149,6 +149,8 @@ var _handleGroupFeedSince = function(data){
  */
 var _convertFeedToPosts = function(data){
 
+    var newPosts = [];
+
     if(data && data.data){
 
         data.data.map(function(item){
@@ -156,7 +158,7 @@ var _convertFeedToPosts = function(data){
             if(item.attachments && item.attachments.data && item.attachments.data.length > 0){
 
                 item.attachments.data.map(function(attachment){
-              
+
                     var post = {
                         id: attachment.target.id,
                         from: item.from,
@@ -172,24 +174,35 @@ var _convertFeedToPosts = function(data){
                     if(attachment.subattachments && attachment.subattachments.data  && attachment.subattachments.data.length > 0){
 
                         attachment.subattachments.data.map(function(subattachment){
-
-                            _addPost({
-                                id: subattachment.target.id,
-                                from: post.from,
-                                message: subattachment.description || post.message,
-                                src: subattachment.media.image.src
-                            });
+                            
+                            if(subattachment.type && subattachment.type === 'photo'){
+                            
+                                newPosts.push(_addPost({
+                                    id: subattachment.target.id,
+                                    from: post.from,
+                                    message: subattachment.description || post.message,
+                                    src: subattachment.media.image.src
+                                }));
+                            }
                         });
                     }else{
 
                         post.src = attachment.media.image.src;
 
-                        _addPost(post);
+                        if(attachment.type && attachment.type === 'photo'){
+                            
+                            newPosts.push(_addPost(post));
+                        }
                     }
                 })                        
             }
 
         });
+    }
+
+    if(newPosts.length > 0){
+
+        io.emit('data', newPosts);
     }
 }
 
@@ -210,7 +223,7 @@ var _addPost = function(post){
         posts.push(post);
     } 
 
-    io.emit('data', post);
+    return post;
 };
 
 

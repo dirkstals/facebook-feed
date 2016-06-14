@@ -3,13 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "window": {
-    "width": 800,
-    "height": 700,
-    "fullscreen": false,
-    "toolbar": true,
-    "frame": true
-  },
   "scripts": {
     "start": "node autostart.js",
     "build": "grunt"

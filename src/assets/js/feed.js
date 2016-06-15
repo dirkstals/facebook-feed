@@ -31,7 +31,7 @@ var Feed = React.createClass({
 
         posts.splice.apply(posts, [this.i, 0].concat(newPosts));
 
-        this.setState({feed: posts});
+        this.replaceState({feed: posts});
 
         this.afterAWhile(this.kenBurns.bind(this), 10);
     },
@@ -49,7 +49,7 @@ var Feed = React.createClass({
                 posts[0].className = 'fx';
         }
 
-        this.setState({feed: posts});
+        this.replaceState({feed: posts});
     },
     kenBurns: function() {
 

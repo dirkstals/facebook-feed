@@ -11,30 +11,21 @@ var Feed = React.createClass({
     },
     componentDidMount: function() {
 
-        this.getNewPosts();
+        this.getNewPosts(true);
     },
-    getNewPosts: function(delay){
+    getNewPosts: function(firstRun){
         
         fetch('/api/feed').then(function(response) {
 
             return response.json().then(function(data){
 
-                this.handleNewPosts(data);
+                this.handleNewPosts(data, firstRun);
 
-                clearInterval(this.interval);
-                clearTimeout(this.timeout);
-                this.timeout = setTimeout(function(){
-                    this.kenBurns();
-                    this.interval = setInterval(this.kenBurns, this.delay);
-                }.bind(this), this.delay / 3);
-
+                this.afterAWhile(this.kenBurns.bind(this), this.delay / 3);
             }.bind(this));
         }.bind(this));
     },
     addLatestPosts: function(newPosts){
-
-        clearInterval(this.interval);
-        clearTimeout(this.timeout);
 
         var posts = this.state.feed.slice(0);     
 
@@ -42,18 +33,9 @@ var Feed = React.createClass({
 
         this.setState({feed: posts});
 
-        this.timeout = setTimeout(function(){
-            
-            this.kenBurns();
-
-            this.timeout = setTimeout(function(){
-                this.kenBurns();
-                this.interval = setInterval(this.kenBurns, this.delay);
-            }.bind(this), this.delay);
-
-        }.bind(this), 10);
+        this.afterAWhile(this.kenBurns.bind(this), 10);
     },
-    handleNewPosts: function(posts) {
+    handleNewPosts: function(posts, firstRun) {
 
         if(this.state.feed.length > 0){
 
@@ -61,6 +43,11 @@ var Feed = React.createClass({
         }
     
         this.i = 1;
+
+        if(firstRun){
+
+                posts[0].className = 'fx';
+        }
 
         this.setState({feed: posts});
     },
@@ -81,12 +68,18 @@ var Feed = React.createClass({
         this.setState({feed: posts});
 
         this.i++;
+        
+        this.afterAWhile(this.kenBurns, this.delay);
 
         if(this.i == posts.length ){ 
 
-            clearTimeout(this.timeout);
-            this.timeout = setTimeout(this.getNewPosts, this.delay / 2);
+            this.afterAWhile(this.getNewPosts, this.delay / 2);
         }
+    },
+    afterAWhile: function(callback, delay){
+        
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(callback, delay);
     },
     render: function() {
         return this.state.feed.length == 0 ? null : React.createElement(

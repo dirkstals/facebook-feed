@@ -3,7 +3,7 @@ var Feed = React.createClass({
     i: 0,
     interval: null,
     timeout: null,
-    delay: 10000,
+    delay: 15000,
     getInitialState: function() {
         return {
             feed: []
@@ -21,7 +21,7 @@ var Feed = React.createClass({
 
                 this.handleNewPosts(data, firstRun);
 
-                this.afterAWhile(this.kenBurns.bind(this), this.delay / 3);
+                this.afterAWhile(this.kenBurns.bind(this), this.delay / 2);
             }.bind(this));
         }.bind(this));
     },
@@ -57,13 +57,13 @@ var Feed = React.createClass({
 
         if(this.i == posts.length){ this.i = 0;}
 
-        posts[this.i].className = 'fx';
-
         // we can't remove the class from the previous element or we'd get a bouncing effect so we clean up the one before last
         // (there must be a smarter way to do this though)
         if(this.i===0){ posts[posts.length-2].className = '';}
         if(this.i===1){ posts[posts.length-1].className = '';}
         if(this.i > 1){ posts[this.i-2].className = '';}
+
+        posts[this.i].className = 'fx';
 
         this.setState({feed: posts});
 

@@ -62,7 +62,7 @@ var Feed = React.createClass({
         if(this.i===0){ posts[posts.length-2].className = '';}
         if(this.i===1){ posts[posts.length-1].className = '';}
         if(this.i > 1){ posts[this.i-2].className = '';}
-console.log(this.i, posts[this.i]);
+console.log(this.i, posts);
         posts[this.i].className = 'fx';
 
         this.setState({feed: posts});

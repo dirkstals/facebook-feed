@@ -3,7 +3,7 @@ var Feed = React.createClass({
     i: 0,
     interval: null,
     timeout: null,
-    delay: 15000,
+    delay: 5000,
     firstRun: true,
     getInitialState: function() {
         return {
@@ -91,7 +91,7 @@ var Feed = React.createClass({
 
                 return React.createElement(
                     'div',
-                    {key: item.id + '_' + index, className: item.className},
+                    {key: item.id + '_' + item.message.length, className: item.className},
                     React.createElement(
                         'div', 
                         {className: 'post__picture'},

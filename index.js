@@ -103,19 +103,27 @@ var _onWebhookRoutePost = function (req, res) {
  */
 var _startUp = function(){
 
-    facebookService.getGroupFeed(process.env.EVENTID, function(data){
-        
-        posts = [];
-
-        _convertFeedToPosts(data);
-    });
-
     facebookService.getGroupUsers(process.env.EVENTID, function(data){
 
         users = data;
+
+        data.data.map(function(user){
+            users[user.id] = {
+                name: user.name,
+                picture: user.picture.data.url,
+            }
+        });
+
+
+        facebookService.getGroupFeed(process.env.EVENTID, function(feedData){
+            
+            posts = [];
+
+            _convertFeedToPosts(feedData);
+        });
     });
 
-    heartbeatTimeout = setTimeout(_heartbeat, 1 * 60 * 1000);
+    heartbeatTimeout = setTimeout(_heartbeat, 30 * 1000);
 };
 
 
@@ -127,7 +135,7 @@ var _heartbeat = function(){
 
     facebookService.getGroupFeedSince(process.env.EVENTID, _handleGroupFeedSince);
 
-    heartbeatTimeout = setTimeout(_heartbeat, 5 * 60 * 1000);
+    heartbeatTimeout = setTimeout(_heartbeat, 30 * 1000);
 };
 
 
@@ -161,14 +169,14 @@ var _convertFeedToPosts = function(data){
 
                     var post = {
                         id: attachment.target.id,
-                        from: item.from,
+                        from: users[item.from.id].picture,
                         message: attachment.description || item.message || '' // attachment.title || 
                     };
 
                     if(item.comments && item.comments.data && item.comments.data.length > 0){
 
                         post.message = item.comments.data[0].message;
-                        post.from = item.comments.data[0].from;
+                        post.from = users[item.comments.data[0].from.id].picture;
                     }
 
                     if(attachment.subattachments && attachment.subattachments.data  && attachment.subattachments.data.length > 0){

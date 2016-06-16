@@ -101,7 +101,7 @@ var Feed = React.createClass({
                         React.createElement(
                             'div', 
                             {className: 'post__from'},
-                            React.createElement('img', {className: 'from', src: storedUsers[item.from.id].picture})
+                            React.createElement('img', {className: 'from', src: item.from})
                         ),
                         React.createElement(
                             'div', 

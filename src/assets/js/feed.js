@@ -45,7 +45,7 @@ var Feed = React.createClass({
     
         this.i = 1;
 
-        if(this.firstRun){
+        if(this.firstRun === true){
 
             posts[0].className = 'fx';
             this.firstRun = false;
@@ -59,13 +59,13 @@ var Feed = React.createClass({
 
         if(this.i == posts.length){ this.i = 0;}
 
+        posts[this.i].className = 'fx';
+
         // we can't remove the class from the previous element or we'd get a bouncing effect so we clean up the one before last
         // (there must be a smarter way to do this though)
         if(this.i===0){ posts[posts.length-2].className = '';}
         if(this.i===1){ posts[posts.length-1].className = '';}
         if(this.i > 1){ posts[this.i-2].className = '';}
-
-        posts[this.i].className = 'fx';
 
         this.setState({feed: posts});
 

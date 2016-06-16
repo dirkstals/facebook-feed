@@ -62,7 +62,7 @@ var Feed = React.createClass({
         if(this.i===0){ posts[posts.length-2].className = '';}
         if(this.i===1){ posts[posts.length-1].className = '';}
         if(this.i > 1){ posts[this.i-2].className = '';}
-console.log(this.i, posts);
+
         posts[this.i].className = 'fx';
 
         this.setState({feed: posts});
@@ -85,11 +85,11 @@ console.log(this.i, posts);
         return this.state.feed.length == 0 ? null : React.createElement(
             'div', 
             {className: 'post__container'},
-            this.state.feed.map(function (item) {
+            this.state.feed.map(function (item, index) {
 
                 return React.createElement(
                     'div',
-                    {key: item.id, className: item.className},
+                    {key: item.id + '_' + index, className: item.className},
                     React.createElement(
                         'div', 
                         {className: 'post__picture'},

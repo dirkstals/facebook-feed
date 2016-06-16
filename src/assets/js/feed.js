@@ -3,7 +3,7 @@ var Feed = React.createClass({
     i: 0,
     interval: null,
     timeout: null,
-    delay: 5000,
+    delay: 15000,
     firstRun: true,
     getInitialState: function() {
         return {

@@ -4,6 +4,7 @@ var Feed = React.createClass({
     interval: null,
     timeout: null,
     delay: 15000,
+    firstRun: true,
     getInitialState: function() {
         return {
             feed: []
@@ -11,15 +12,15 @@ var Feed = React.createClass({
     },
     componentDidMount: function() {
 
-        this.getNewPosts(true);
+        this.getNewPosts();
     },
-    getNewPosts: function(firstRun){
+    getNewPosts: function(){
         
         fetch('/api/feed').then(function(response) {
 
             return response.json().then(function(data){
 
-                this.handleNewPosts(data, firstRun);
+                this.handleNewPosts(data);
 
                 this.afterAWhile(this.kenBurns.bind(this), this.delay / 2);
             }.bind(this));
@@ -31,11 +32,11 @@ var Feed = React.createClass({
 
         posts.splice.apply(posts, [this.i, 0].concat(newPosts));
 
-        this.replaceState({feed: posts});
+        this.setState({feed: posts});
 
         this.afterAWhile(this.kenBurns.bind(this), 10);
     },
-    handleNewPosts: function(posts, firstRun) {
+    handleNewPosts: function(posts) {
 
         if(this.state.feed.length > 0){
 
@@ -44,12 +45,13 @@ var Feed = React.createClass({
     
         this.i = 1;
 
-        if(firstRun){
+        if(this.firstRun){
 
             posts[0].className = 'fx';
+            this.firstRun = false;
         }
 
-        this.replaceState({feed: posts});
+        this.setState({feed: posts});
     },
     kenBurns: function() {
 
